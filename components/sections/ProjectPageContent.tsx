@@ -6,9 +6,6 @@ import Link from "next/link";
 import {
   ArrowLeft,
   ExternalLink,
-  Calendar,
-  User,
-  Briefcase,
   Globe,
   Smartphone,
   Image,
@@ -19,7 +16,7 @@ import {
   Code2,
   type LucideIcon,
 } from "lucide-react";
-import { Button, Stamp } from "@/components/ui";
+import { Button, FloatingBlob, Sticker } from "@/components/ui";
 
 // Map icon names to components
 const iconMap: Record<string, LucideIcon> = {
@@ -61,111 +58,99 @@ export default function ProjectPageContent({
 }: ProjectPageContentProps) {
   const IconComponent = iconMap[project.icon] || Code2;
 
-  return (
-    <main className="min-h-screen">
-      {/* Hero Section */}
-      <section
-        className={`relative py-32 px-6 md:px-12 lg:px-24 2xl:px-12 bg-gradient-to-br from-${project.color}/10 via-background to-background overflow-hidden`}
-      >
-        {/* Background decorations */}
-        <div
-          className={`absolute top-20 right-20 w-64 h-64 bg-${project.color}/20 rounded-full blur-3xl`}
-        />
-        <div
-          className={`absolute bottom-10 left-10 w-48 h-48 bg-${project.color}/10 rounded-full blur-3xl`}
-        />
+  // Map color names to Tailwind classes for proper compilation
+  const colorClasses: Record<string, { bg: string; bgLight: string; border: string; text: string }> = {
+    coral: { bg: "bg-coral", bgLight: "bg-coral/10", border: "border-coral/20", text: "text-coral" },
+    purple: { bg: "bg-purple", bgLight: "bg-purple/10", border: "border-purple/20", text: "text-purple" },
+    yellow: { bg: "bg-yellow", bgLight: "bg-yellow/10", border: "border-yellow/20", text: "text-yellow" },
+    blue: { bg: "bg-blue-500", bgLight: "bg-blue-500/10", border: "border-blue-500/20", text: "text-blue-500" },
+  };
 
+  const colors = colorClasses[project.color] || colorClasses.coral;
+
+  return (
+    <main className="relative min-h-screen overflow-x-hidden">
+      {/* Floating shapes like main page */}
+      <FloatingBlob color="coral" size="lg" className="fixed top-20 right-10 opacity-50" />
+      <FloatingBlob color="teal" size="md" className="fixed bottom-32 left-10 opacity-50" delay="-2s" />
+      <FloatingBlob color="purple" size="sm" className="fixed top-1/2 right-1/4 opacity-50" delay="-4s" />
+
+      {/* Hero Section */}
+      <section className="relative pt-16 pb-20 px-6 md:px-12 lg:px-24 2xl:px-12">
         <div className="max-w-[1400px] mx-auto relative z-10">
           {/* Back button */}
           <Link
             href="/#projets"
-            className="inline-flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors mb-12 group"
+            className="inline-flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors mb-10 group"
           >
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Retour aux projets
           </Link>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left: Project info */}
-            <div>
+          <div className="grid lg:grid-cols-3 gap-12">
+            {/* Main info - 2 cols */}
+            <div className="lg:col-span-2">
               <div className="flex items-center gap-4 mb-6">
-                <div
-                  className={`w-16 h-16 bg-${project.color}/20 rounded-2xl flex items-center justify-center`}
-                >
-                  <IconComponent className={`w-8 h-8 text-${project.color}`} />
+                <div className={`w-14 h-14 ${colors.bg} rounded-2xl flex items-center justify-center`}>
+                  <IconComponent className="w-7 h-7 text-white" />
                 </div>
-                <Stamp className={`bg-${project.color} text-white`}>
+                <Sticker className={`${colors.bg} text-white`}>
                   {project.year || "Projet"}
-                </Stamp>
+                </Sticker>
               </div>
 
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-[0.95]">
-                {project.title}
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[0.95]">
+                <span className="relative inline-block">
+                  {project.title}
+                  <span className={`absolute bottom-1 left-0 w-full h-3 ${colors.bgLight} -z-10`} />
+                </span>
               </h1>
 
-              <p className="text-xl text-foreground/70 mb-8 leading-relaxed">
+              <p className="text-xl text-foreground/70 mb-8 leading-relaxed max-w-xl">
                 {project.longDescription || project.description}
               </p>
 
               {/* Tags */}
-              <div className="flex flex-wrap gap-2 mb-10">
+              <div className="flex flex-wrap gap-2 mb-8">
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className={`px-4 py-2 bg-${project.color}/10 border border-${project.color}/20 text-sm font-mono rounded-full`}
+                    className="px-4 py-2 bg-foreground/5 text-sm font-mono rounded-full border border-foreground/10"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              {/* CTA */}
               <Button
                 href={project.url}
-                variant="magnetic"
-                className="px-8 py-4"
+                variant="primary"
+                className="px-6 py-3"
                 external
               >
                 Voir le projet
-                <ExternalLink className="w-5 h-5" />
+                <ExternalLink className="w-4 h-4" />
               </Button>
             </div>
 
-            {/* Right: Project meta */}
-            <div className="space-y-6">
+            {/* Sidebar - 1 col */}
+            <div className="space-y-4">
               {project.client && (
-                <div className="p-6 bg-foreground/5 rounded-2xl border-2 border-foreground/10">
-                  <div className="flex items-center gap-3 mb-2">
-                    <User className="w-5 h-5 text-foreground/40" />
-                    <span className="text-sm text-foreground/40 uppercase tracking-wider">
-                      Client
-                    </span>
-                  </div>
-                  <p className="text-xl font-semibold">{project.client}</p>
+                <div className="p-5 bg-foreground/[0.02] rounded-xl border border-foreground/10 backdrop-blur-sm">
+                  <p className="text-xs text-foreground/40 uppercase tracking-wider font-mono mb-1">Client</p>
+                  <p className="font-semibold">{project.client}</p>
                 </div>
               )}
-
               {project.role && (
-                <div className="p-6 bg-foreground/5 rounded-2xl border-2 border-foreground/10">
-                  <div className="flex items-center gap-3 mb-2">
-                    <Briefcase className="w-5 h-5 text-foreground/40" />
-                    <span className="text-sm text-foreground/40 uppercase tracking-wider">
-                      Rôle
-                    </span>
-                  </div>
-                  <p className="text-xl font-semibold">{project.role}</p>
+                <div className="p-5 bg-foreground/[0.02] rounded-xl border border-foreground/10 backdrop-blur-sm">
+                  <p className="text-xs text-foreground/40 uppercase tracking-wider font-mono mb-1">Rôle</p>
+                  <p className="font-semibold">{project.role}</p>
                 </div>
               )}
-
               {project.year && (
-                <div className="p-6 bg-foreground/5 rounded-2xl border-2 border-foreground/10">
-                  <div className="flex items-center gap-3 mb-2">
-                    <Calendar className="w-5 h-5 text-foreground/40" />
-                    <span className="text-sm text-foreground/40 uppercase tracking-wider">
-                      Année
-                    </span>
-                  </div>
-                  <p className="text-xl font-semibold">{project.year}</p>
+                <div className="p-5 bg-foreground/[0.02] rounded-xl border border-foreground/10 backdrop-blur-sm">
+                  <p className="text-xs text-foreground/40 uppercase tracking-wider font-mono mb-1">Année</p>
+                  <p className="font-semibold">{project.year}</p>
                 </div>
               )}
             </div>
@@ -175,8 +160,8 @@ export default function ProjectPageContent({
 
       {/* Markdown Content Section */}
       {markdownContent && (
-        <section className="py-20 px-6 md:px-12 lg:px-24 2xl:px-12">
-          <div className="max-w-[900px] mx-auto">
+        <section className="relative py-16 px-6 md:px-12 lg:px-24 2xl:px-12">
+          <div className="max-w-[900px] mx-auto relative z-10">
             <article className="markdown-content">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {markdownContent}
@@ -186,16 +171,14 @@ export default function ProjectPageContent({
         </section>
       )}
 
-      {/* Back to projects CTA */}
-      <section className="py-20 px-6 md:px-12 lg:px-24 2xl:px-12">
-        <div className="max-w-[1400px] mx-auto text-center">
-          <p className="text-foreground/60 mb-6">
-            Vous avez aimé ce projet ?
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
+      {/* Back to projects */}
+      <section className="relative py-16 px-6 md:px-12 lg:px-24 2xl:px-12 border-t border-foreground/10">
+        <div className="max-w-[900px] mx-auto flex flex-wrap items-center justify-between gap-6 relative z-10">
+          <p className="text-foreground/60">Un autre projet à découvrir ?</p>
+          <div className="flex flex-wrap gap-4">
             <Button href="/#projets" variant="secondary">
-              <ArrowLeft className="w-5 h-5" />
-              Voir d&apos;autres projets
+              <ArrowLeft className="w-4 h-4" />
+              Autres projets
             </Button>
             <Button href="/#contact" variant="primary">
               Me contacter

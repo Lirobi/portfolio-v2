@@ -1,28 +1,24 @@
-# À propos du projet
+# Le projet en détail
 
 ETiK BE est un bureau d'études spécialisé dans l'accompagnement technique des entreprises. Le site avait besoin d'une refonte complète pour mieux refléter leur expertise et leur approche moderne.
 
-## Objectifs
+## Objectifs du projet
 
 - Créer une identité visuelle forte et professionnelle
 - Mettre en avant les compétences techniques de l'équipe
-- Intégrer des animations 3D pour se démarquer de la concurrence
-- Optimiser le référencement naturel (SEO)
+- Intégrer des animations 3D pour se démarquer
+- Optimiser le référencement naturel
 
 ## Défis techniques
 
-### Animations 3D avec Three.js
+### Intégration Three.js
 
-L'un des plus grands défis a été d'intégrer des modèles 3D interactifs tout en maintenant des performances optimales. J'ai utilisé **Three.js** avec des techniques d'optimisation comme :
+L'un des principaux défis a été d'intégrer des modèles 3D interactifs tout en maintenant des performances optimales. Plusieurs techniques d'optimisation ont été mises en place :
 
-- Le lazy loading des modèles 3D
-- La compression des textures
-- L'utilisation de LOD (Level of Detail)
+- Chargement différé des modèles 3D
+- Compression des textures
+- Gestion des niveaux de détail (LOD)
 
-### Performance
+### Optimisation des performances
 
-Le site atteint un score **Lighthouse de 95+** sur toutes les métriques grâce à :
-
-- L'optimisation des images avec Next.js Image
-- Le code splitting automatique
-- Le prefetching des pages
+Le site atteint un score Lighthouse supérieur à 95 sur l'ensemble des métriques grâce à l'optimisation des images via Next.js, le code splitting automatique et le prefetching des pages.

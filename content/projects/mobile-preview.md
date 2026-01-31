@@ -1,45 +1,31 @@
-# Mobile Preview
+# Le projet en détail
 
-Une extension VS Code qui révolutionne le workflow des développeurs web en permettant de prévisualiser instantanément leurs sites dans un émulateur mobile.
+Mobile Preview est une extension VS Code permettant de prévisualiser instantanément les sites web dans un émulateur mobile, directement depuis l'éditeur.
 
-## Le problème
+## Problématique
 
-En tant que développeur, je passais un temps fou à :
+Le workflow classique pour tester un site en mode responsive implique d'ouvrir les DevTools, d'activer le mode responsive et de jongler entre différentes tailles d'écran. Cette extension simplifie ce processus.
 
-- Ouvrir les DevTools pour activer le mode responsive
-- Redimensionner manuellement la fenêtre
-- Jongler entre différentes tailles d'écran
+## Fonctionnalités principales
 
-J'ai donc créé **Mobile Preview** pour résoudre ce problème.
+### Prévisualisation instantanée
 
-## Fonctionnalités
+Un simple clic pour afficher le site dans un iPhone, Android ou tablette directement dans VS Code.
 
-### 📱 Prévisualisation instantanée
-
-Un simple clic pour voir votre site dans un iPhone, Android ou tablette directement dans VS Code.
-
-### 🔄 Hot Reload
+### Rechargement automatique
 
 Le preview se met à jour automatiquement à chaque sauvegarde de fichier.
 
-### 📐 Appareils personnalisables
+### Bibliothèque d'appareils
 
-Choisissez parmi une bibliothèque d'appareils ou créez vos propres dimensions.
+Choix parmi une sélection d'appareils prédéfinis ou création de dimensions personnalisées.
 
 ## Stack technique
 
-- **TypeScript** pour un code robuste et maintenable
-- **VS Code Extension API** pour l'intégration native
-- **Webview API** pour le rendu du preview
+- TypeScript pour un code robuste et maintenable
+- VS Code Extension API pour l'intégration native
+- Webview API pour le rendu du preview
 
 ## Modèle économique
 
-L'extension propose un modèle freemium avec paiement via **Stripe** :
-
-- Version gratuite : fonctionnalités de base
-- Version Pro : appareils illimités, thèmes personnalisés, support prioritaire
-
-## Liens
-
-- [Marketplace VS Code](https://marketplace.visualstudio.com/)
-- [Documentation](https://mobilepreview.lirobi.com/docs)
+L'extension propose un modèle freemium avec paiement via Stripe. La version gratuite offre les fonctionnalités de base, tandis que la version Pro débloque les appareils illimités, les thèmes personnalisés et le support prioritaire.

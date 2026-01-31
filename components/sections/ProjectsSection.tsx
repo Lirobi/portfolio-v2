@@ -57,17 +57,10 @@ export default function ProjectsSection() {
             </h2>
           </div>
           <div className="max-w-sm mt-6 md:mt-0">
-            <p className="text-lg text-foreground/60 mb-4">
+            <p className="text-lg text-foreground/60">
               Une sélection de projets qui illustrent mon approche et mes
               compétences.
             </p>
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 text-foreground font-semibold hover:text-coral transition-colors group"
-            >
-              Voir tous les projets
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
           </div>
         </div>
 
