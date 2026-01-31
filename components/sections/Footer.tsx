@@ -88,9 +88,7 @@ export default function Footer() {
             © {new Date().getFullYear()} {config.personal.fullName}
           </p>
           <p className="text-background/40 text-sm flex items-center gap-2">
-            Fait avec <Heart className="w-4 h-4 text-coral fill-coral" /> et
-            beaucoup de <Coffee className="w-4 h-4 text-yellow" /> à{" "}
-            {config.personal.location}
+            
           </p>
           <a
             href="#"
