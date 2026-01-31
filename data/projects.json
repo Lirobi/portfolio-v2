@@ -1,29 +1,66 @@
 [
   {
     "id": 1,
+    "slug": "etik-be",
     "title": "ETiK BE",
     "description": "Site vitrine d'un Bureau d'Études",
+    "longDescription": "Conception et développement d'un site vitrine moderne pour ETiK BE, un bureau d'études spécialisé. Le site met en avant leur expertise avec des animations 3D interactives.",
     "tags": ["Next.js", "Three.js", "Prisma"],
     "color": "coral",
     "icon": "Globe",
-    "url": "https://etik-be.com/"
+    "url": "https://etik-be.com/",
+    "hasPage": true,
+    "markdownFile": "etik-be.md",
+    "year": "2025",
+    "client": "ETiK BE",
+    "role": "Développeur"
   },
   {
     "id": 2,
+    "slug": "mobile-preview",
     "title": "Mobile Preview",
     "description": "Extension VS Code pour prévisualiser des sites web dans un appareil mobile",
+    "longDescription": "Extension VS Code permettant aux développeurs de prévisualiser instantanément leurs sites web dans un émulateur mobile, directement dans l'éditeur.",
     "tags": ["TypeScript", "Next.js", "Stripe"],
     "color": "teal",
     "icon": "Smartphone",
-    "url": "https://mobilepreview.lirobi.com/"
+    "url": "https://mobilepreview.lirobi.com/",
+    "hasPage": true,
+    "markdownFile": "mobile-preview.md",
+    "year": "2025",
+    "client": "Projet personnel",
+    "role": "Créateur & Développeur"
   },
   {
     "id": 3,
+    "slug": "watermarker",
     "title": "Watermarker",
     "description": "Application web pour ajouter des filigranes personnalisés à vos images et vidéos",
+    "longDescription": "Application web intuitive permettant d'ajouter des filigranes personnalisés à vos images et vidéos en quelques clics, avec authentification Google.",
     "tags": ["Next.js", "Framer Motion", "Google OAuth"],
     "color": "purple",
     "icon": "Image",
-    "url": "https://watermarker.lirobi.com/"
+    "url": "https://watermarker.lirobi.com/",
+    "hasPage": true,
+    "markdownFile": "watermarker.md",
+    "year": "2024",
+    "client": "Projet personnel",
+    "role": "Créateur & Développeur"
+  },
+  {
+    "id": 4,
+    "slug": "strasplanning",
+    "title": "StrasPlanning",
+    "description": "Application de gestion de planning pour les entreprises réalisée lors d'un projet d'études en équipe de 6",
+    "longDescription": "Application web de gestion de planning développée en équipe pour faciliter l'organisation des tâches et des horaires au sein des entreprises.",
+    "tags": ["React", "Node.js", "Electron", "leaflet.js"],
+    "color": "blue",
+    "icon": "Calendar",
+    "url": "https://github.com/Lirobi/t5_strasplanning",
+    "hasPage": true,
+    "markdownFile": "strasplanning.md",
+    "year": "2025",
+    "client": "Projet d'études",
+    "role": "Lead dev"
   }
 ]

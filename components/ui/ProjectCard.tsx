@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
+import Link from "next/link";
 
 interface ProjectCardProps {
     title: string;
@@ -8,6 +9,8 @@ interface ProjectCardProps {
     color: string;
     icon: LucideIcon;
     url: string;
+    slug?: string;
+    hasPage?: boolean;
     offset?: boolean;
 }
 
@@ -18,14 +21,12 @@ export default function ProjectCard({
     color,
     icon: IconComponent,
     url,
+    slug,
+    hasPage = false,
     offset = false,
 }: ProjectCardProps) {
-  return (
-    <article
-        className={`project-card group relative bg-${color}/5 p-8 md:p-10 rounded-3xl border-2 border-foreground/10 hover:border-foreground cursor-pointer overflow-hidden`}
-        onClick={() => window.open(url, "_blank")}
-        style={{ transform: offset ? "translateY(2rem)" : "none" }}
-    >
+  const cardContent = (
+    <>
       {/* Hover glow */}
       <div
         className={`absolute inset-0 bg-${color}/20 opacity-0 group-hover:opacity-100 transition-opacity blur-3xl`}
@@ -67,6 +68,31 @@ export default function ProjectCard({
       <div
         className={`absolute -bottom-10 -right-10 w-32 h-32 bg-${color}/10 rounded-full group-hover:scale-150 transition-transform`}
       />
+    </>
+  );
+
+  const cardClasses = `project-card group relative bg-${color}/5 p-8 md:p-10 rounded-3xl border-2 border-foreground/10 hover:border-foreground cursor-pointer overflow-hidden`;
+
+  // Si le projet a une page dédiée, utiliser Link, sinon ouvrir l'URL externe
+  if (hasPage && slug) {
+    return (
+      <Link
+        href={`/projets/${slug}`}
+        className={cardClasses}
+        style={{ transform: offset ? "translateY(2rem)" : "none" }}
+      >
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return (
+    <article
+      className={cardClasses}
+      onClick={() => window.open(url, "_blank")}
+      style={{ transform: offset ? "translateY(2rem)" : "none" }}
+    >
+      {cardContent}
     </article>
   );
 }

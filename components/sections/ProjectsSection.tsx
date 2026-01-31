@@ -81,6 +81,8 @@ export default function ProjectsSection() {
               color={project.color}
               icon={project.icon}
               url={project.url}
+              slug={project.slug}
+              hasPage={project.hasPage}
               offset={index % 2 === 1}
             />
           ))}
