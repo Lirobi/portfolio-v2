@@ -71,7 +71,7 @@ export default function ProjectCard({
     </>
   );
 
-  const cardClasses = `project-card group relative bg-${color}/5 p-8 md:p-10 rounded-3xl border-2 border-foreground/10 hover:border-foreground cursor-pointer overflow-hidden`;
+  const cardClasses = `project-card group relative bg-${color}/5 p-8 md:p-10 rounded-3xl border-2 border-foreground/10 hover:border-foreground cursor-pointer overflow-hidden ${offset ? "md:translate-y-8" : ""}`;
 
   // Si le projet a une page dédiée, utiliser Link, sinon ouvrir l'URL externe
   if (hasPage && slug) {
@@ -79,7 +79,6 @@ export default function ProjectCard({
       <Link
         href={`/projets/${slug}`}
         className={cardClasses}
-        style={{ transform: offset ? "translateY(2rem)" : "none" }}
       >
         {cardContent}
       </Link>
@@ -90,7 +89,6 @@ export default function ProjectCard({
     <article
       className={cardClasses}
       onClick={() => window.open(url, "_blank")}
-      style={{ transform: offset ? "translateY(2rem)" : "none" }}
     >
       {cardContent}
     </article>
