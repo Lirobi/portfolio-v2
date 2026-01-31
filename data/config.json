@@ -1,0 +1,47 @@
+{
+  "site": {
+    "title": "Lilian Bischung | Développeur Web",
+    "description": "Portfolio de Lilian Bischung - Développeur web passionné par le design et les expériences uniques"
+  },
+  "personal": {
+    "name": "Lilian",
+    "fullName": "Lilian Bischung",
+    "email": "l.bischung@gmail.com",
+    "location": "Strasbourg",
+    "locationMessage": "Basé à Strasbourg, France"
+  },
+  "social": {
+    "linkedin": {
+      "url": "https://linkedin.com/in/lilianbischung",
+      "handle": "/in/lilianbischung"
+    },
+    "github": {
+      "url": "https://github.com/lirobi",
+      "handle": "@lirobi"
+    }
+  },
+  "content": {
+    "heroTagline": "Disponible pour des missions",
+    "heroDescription": "Développeur web passionné par le design, l'UX et les interfaces qui ont de la personnalité.",
+    "aboutTitle": "Un dev qui aime le beau autant que le fonctionnel",
+    "aboutParagraphs": [
+      "Je suis développeur web avec une vraie sensibilité pour le design. J'aime créer des sites qui fonctionnent bien et qui sont agréables à utiliser.",
+      "En dehors du code, je m'intéresse à la tech en général, aux nouveaux outils et aux bonnes pratiques du développement web."
+    ],
+    "footerTagline": "Développeur web passionné par les interfaces qui ont du caractère.",
+    "projectTeaserTitle": "Et ce n'est pas tout...",
+    "projectTeaserDescription": "D'autres projets sont en préparation. Restez à l'écoute !"
+  },
+  "skills": [
+    { "name": "React", "color": "teal" },
+    { "name": "Next.js", "color": "foreground" },
+    { "name": "TypeScript", "color": "blue" },
+    { "name": "Node.js", "color": "teal" },
+    { "name": "Tailwind", "color": "teal" },
+    { "name": "PostgreSQL", "color": "blue" },
+    { "name": "Prisma", "color": "purple" },
+    { "name": "Git", "color": "coral" },
+    { "name": "Figma", "color": "purple" },
+    { "name": "Docker", "color": "blue" }
+  ]
+}

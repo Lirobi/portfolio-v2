@@ -1,38 +1,29 @@
 [
   {
     "id": 1,
-    "title": "E-commerce Artisanal",
-    "description": "Plateforme de vente pour créateurs locaux avec panier et paiement Stripe",
-    "tags": ["Next.js", "Stripe", "Prisma"],
+    "title": "ETiK BE",
+    "description": "Site vitrine d'un Bureau d'Études",
+    "tags": ["Next.js", "Three.js", "Prisma"],
     "color": "coral",
-    "icon": "ShoppingCart",
-    "url": "#"
+    "icon": "Globe",
+    "url": "https://etik-be.com/"
   },
   {
     "id": 2,
-    "title": "App de Méditation",
-    "description": "Application mobile-first avec sons relaxants et suivi de progression",
-    "tags": ["React Native", "Node.js", "MongoDB"],
+    "title": "Mobile Preview",
+    "description": "Extension VS Code pour prévisualiser des sites web dans un appareil mobile",
+    "tags": ["TypeScript", "Next.js", "Stripe"],
     "color": "teal",
-    "icon": "Flower2",
-    "url": "#"
+    "icon": "Smartphone",
+    "url": "https://mobilepreview.lirobi.com/"
   },
   {
     "id": 3,
-    "title": "Dashboard Analytics",
-    "description": "Tableau de bord temps réel avec visualisations de données interactives",
-    "tags": ["Vue.js", "D3.js", "PostgreSQL"],
+    "title": "Watermarker",
+    "description": "Application web pour ajouter des filigranes personnalisés à vos images et vidéos",
+    "tags": ["Next.js", "Framer Motion", "Google OAuth"],
     "color": "purple",
-    "icon": "BarChart3",
-    "url": "#"
-  },
-  {
-    "id": 4,
-    "title": "Portfolio Photographe",
-    "description": "Site vitrine immersif avec galerie plein écran et animations fluides",
-    "tags": ["Astro", "GSAP", "Cloudinary"],
-    "color": "yellow",
-    "icon": "Camera",
-    "url": "#"
+    "icon": "Image",
+    "url": "https://watermarker.lirobi.com/"
   }
 ]
