@@ -1,8 +1,42 @@
-import { Mail, Linkedin, Github, MapPin, PenLine, Send } from "lucide-react";
-import { ContactCard, Stamp, Input, Textarea, Button } from "@/components/ui";
+"use client";
+
+import { useState, useEffect, FormEvent } from "react";
+import { Mail, Linkedin, Github, MapPin, PenLine, Send, Check, AlertCircle } from "lucide-react";
+import { ContactCard, Stamp, Input, Textarea } from "@/components/ui";
 import config from "@/data/config.json";
 
 export default function ContactSection() {
+  const [formState, setFormState] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [loadTime] = useState(Date.now());
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    // Honeypot check - if filled, it's a bot
+    if (formData.get("website")) {
+      // Fake success for bots
+      setFormState("success");
+      return;
+    }
+
+    // Time check - if submitted too fast (< 3 seconds), likely a bot
+    if (Date.now() - loadTime < 3000) {
+      setFormState("success"); // Fake success
+      return;
+    }
+
+    setFormState("submitting");
+
+    // Ici tu peux ajouter ton endpoint d'envoi (API route, Formspree, etc.)
+    // Pour l'instant on simule juste le succès
+    setTimeout(() => {
+      setFormState("success");
+      form.reset();
+    }, 1000);
+  };
+
   return (
     <section
       id="contact"
@@ -85,25 +119,61 @@ export default function ContactSection() {
                         Envoyez-moi un message
                       </h3>
                     </div>
-                    <form className="space-y-5">
-                      <Input label="Nom" placeholder="Votre nom" name="name" />
+                    <form className="space-y-5" onSubmit={handleSubmit}>
+                      {/* Honeypot - hidden from humans, bots will fill it */}
+                      <input
+                        type="text"
+                        name="website"
+                        autoComplete="off"
+                        tabIndex={-1}
+                        className="absolute opacity-0 pointer-events-none h-0 w-0"
+                        aria-hidden="true"
+                      />
+                      
+                      <Input label="Nom" placeholder="Votre nom" name="name" required />
                       <Input
                         label="Email"
                         type="email"
                         placeholder="votre@email.com"
                         name="email"
+                        required
                       />
                       <Textarea
                         label="Message"
                         placeholder="Parlez-moi de votre projet..."
                         name="message"
                         rows={5}
+                        required
                       />
                       <button
                         type="submit"
-                        className="magnetic w-full py-5 bg-foreground text-background font-bold text-lg rounded-xl hover:bg-coral hover:text-foreground transition-all flex items-center justify-center gap-2"
+                        disabled={formState === "submitting" || formState === "success"}
+                        className="magnetic w-full py-5 bg-foreground text-background font-bold text-lg rounded-xl hover:bg-coral hover:text-foreground transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        Envoyer le message
+                        {formState === "submitting" && (
+                          <>
+                            Envoi en cours...
+                            <div className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
+                          </>
+                        )}
+                        {formState === "success" && (
+                          <>
+                            Message envoyé !
+                            <Check className="w-5 h-5" />
+                          </>
+                        )}
+                        {formState === "error" && (
+                          <>
+                            Erreur, réessayer
+                            <AlertCircle className="w-5 h-5" />
+                          </>
+                        )}
+                        {formState === "idle" && (
+                          <>
+                            Envoyer le message
+                            <Send className="w-5 h-5" />
+                          </>
+                        )}
                         <Send className="w-5 h-5" />
                       </button>
                     </form>
