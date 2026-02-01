@@ -1,3 +1,7 @@
+### Le projet en détail
+
+Conception et développement d'un site vitrine moderne pour ETiK BE, un bureau d'études. Le site met en avant leur expertise.
+
 ## Objectifs du projet
 
 - Créer une identité visuelle forte et professionnelle

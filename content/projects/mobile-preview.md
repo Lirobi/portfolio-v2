@@ -1,6 +1,6 @@
 # Le projet en détail
 
-Mobile Preview est une extension VS Code permettant de prévisualiser instantanément les sites web dans un émulateur mobile, directement depuis l'éditeur.
+Mobile Preview est une extension VS Code permettant de prévisualiser instantanément les sites web dans un appareil mobile, directement depuis l'éditeur.
 
 ## Problématique
 
