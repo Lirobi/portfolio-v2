@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Mail, Linkedin, Github, MapPin, PenLine, Send, Check, AlertCircle } from "lucide-react";
 import { ContactCard, Stamp, Input, Textarea } from "@/components/ui";
 import config from "@/data/config.json";
 
 export default function ContactSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [formState, setFormState] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [loadTime] = useState(Date.now());
@@ -60,6 +63,7 @@ export default function ContactSection() {
 
   return (
     <section
+      ref={ref}
       id="contact"
       className="py-32 px-6 md:px-12 lg:px-24 2xl:px-12 relative overflow-hidden"
     >
@@ -69,7 +73,11 @@ export default function ContactSection() {
 
       <div className="max-w-[1400px] mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-20">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
+          >
             <div className="inline-flex items-center gap-3 mb-6">
               <Stamp className="bg-teal text-white">Contact</Stamp>
               <Mail className="w-8 h-8 text-teal wiggle" />
@@ -93,41 +101,69 @@ export default function ContactSection() {
 
             {/* Contact cards */}
             <div className="space-y-4">
-              <ContactCard
-                href={`mailto:${config.personal.email}`}
-                icon={Mail}
-                title="Email"
-                subtitle={config.personal.email}
-                color="coral"
-              />
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <ContactCard
+                  href={`mailto:${config.personal.email}`}
+                  icon={Mail}
+                  title="Email"
+                  subtitle={config.personal.email}
+                  color="coral"
+                />
+              </motion.div>
 
-              <ContactCard
-                href={config.social.linkedin.url}
-                icon={Linkedin}
-                title="LinkedIn"
-                subtitle={config.social.linkedin.handle}
-                color="blue"
-                external
-              />
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <ContactCard
+                  href={config.social.linkedin.url}
+                  icon={Linkedin}
+                  title="LinkedIn"
+                  subtitle={config.social.linkedin.handle}
+                  color="blue"
+                  external
+                />
+              </motion.div>
 
-              <ContactCard
-                href={config.social.github.url}
-                icon={Github}
-                title="GitHub"
-                subtitle={config.social.github.handle}
-                color="purple"
-                external
-              />
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <ContactCard
+                  href={config.social.github.url}
+                  icon={Github}
+                  title="GitHub"
+                  subtitle={config.social.github.handle}
+                  color="purple"
+                  external
+                />
+              </motion.div>
             </div>
 
             {/* Location */}
-            <div className="mt-10 flex items-center gap-3 text-foreground/50">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="mt-10 flex items-center gap-3 text-foreground/50"
+            >
               <MapPin className="w-5 h-5" />
               <span>{config.personal.locationMessage}</span>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <div className="relative">
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
+            className="relative"
+          >
             <div className="sticky top-8">
               {/* Form with tape effect */}
               <div className="relative">
@@ -201,7 +237,7 @@ export default function ContactSection() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

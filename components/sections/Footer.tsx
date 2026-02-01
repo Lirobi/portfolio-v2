@@ -1,4 +1,5 @@
 import { Heart, Coffee, ChevronUp } from "lucide-react";
+import Link from "next/link";
 import config from "@/data/config.json";
 
 export default function Footer() {
@@ -25,15 +26,23 @@ export default function Footer() {
               <ul className="space-y-2">
                 <li>
                   <a
-                    href="#"
+                    href="/"
                     className="text-background/70 hover:text-coral transition-colors"
                   >
                     Accueil
                   </a>
                 </li>
                 <li>
+                  <Link
+                    href="/parcours"
+                    className="text-background/70 hover:text-coral transition-colors"
+                  >
+                    Mon Parcours
+                  </Link>
+                </li>
+                <li>
                   <a
-                    href="#projets"
+                    href="/#projets"
                     className="text-background/70 hover:text-coral transition-colors"
                   >
                     Projets
@@ -41,7 +50,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <a
-                    href="#contact"
+                    href="/#contact"
                     className="text-background/70 hover:text-coral transition-colors"
                   >
                     Contact

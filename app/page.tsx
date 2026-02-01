@@ -8,10 +8,12 @@ import {
   ContactSection,
   Footer,
 } from "@/components/sections";
+import { Navigation } from "@/components/ui";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-x-hidden">
+      <Navigation />
       <HeroSection />
       <AboutSection />
       <ProjectsSection />

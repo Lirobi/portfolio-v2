@@ -14,9 +14,10 @@ import {
   BarChart3,
   Camera,
   Code2,
+  Calendar,
   type LucideIcon,
 } from "lucide-react";
-import { Button, FloatingBlob, Sticker } from "@/components/ui";
+import { Button, FloatingBlob, Sticker, Navigation } from "@/components/ui";
 
 // Map icon names to components
 const iconMap: Record<string, LucideIcon> = {
@@ -28,6 +29,7 @@ const iconMap: Record<string, LucideIcon> = {
   BarChart3,
   Camera,
   Code2,
+  Calendar,
 };
 
 interface Project {
@@ -70,6 +72,7 @@ export default function ProjectPageContent({
 
   return (
     <main className="relative min-h-screen overflow-x-hidden">
+      <Navigation />
       {/* Floating shapes like main page */}
       <FloatingBlob color="coral" size="lg" className="fixed top-20 right-10 opacity-50" />
       <FloatingBlob color="teal" size="md" className="fixed bottom-32 left-10 opacity-50" delay="-2s" />
