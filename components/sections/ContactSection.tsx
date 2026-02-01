@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import { Mail, Linkedin, Github, MapPin, PenLine, Send, Check, AlertCircle } from "lucide-react";
 import { ContactCard, Stamp, Input, Textarea } from "@/components/ui";
 import config from "@/data/config.json";
 
 export default function ContactSection() {
   const [formState, setFormState] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
   const [loadTime] = useState(Date.now());
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -16,25 +17,45 @@ export default function ContactSection() {
 
     // Honeypot check - if filled, it's a bot
     if (formData.get("website")) {
-      // Fake success for bots
       setFormState("success");
       return;
     }
 
     // Time check - if submitted too fast (< 3 seconds), likely a bot
     if (Date.now() - loadTime < 3000) {
-      setFormState("success"); // Fake success
+      setFormState("success");
       return;
     }
 
     setFormState("submitting");
+    setErrorMessage("");
 
-    // Ici tu peux ajouter ton endpoint d'envoi (API route, Formspree, etc.)
-    // Pour l'instant on simule juste le succès
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.get("name"),
+          email: formData.get("email"),
+          message: formData.get("message"),
+          website: formData.get("website"),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Erreur lors de l'envoi");
+      }
+
       setFormState("success");
       form.reset();
-    }, 1000);
+    } catch (error) {
+      setFormState("error");
+      setErrorMessage(error instanceof Error ? error.message : "Erreur lors de l'envoi");
+    }
   };
 
   return (
