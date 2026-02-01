@@ -195,7 +195,6 @@ export default function ContactSection() {
                             <Send className="w-5 h-5" />
                           </>
                         )}
-                        <Send className="w-5 h-5" />
                       </button>
                     </form>
                   </div>
