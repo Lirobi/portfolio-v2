@@ -1,11 +1,7 @@
-# Le projet en détail
-
-ETiK BE est un bureau d'études spécialisé dans l'accompagnement technique des entreprises. Le site avait besoin d'une refonte complète pour mieux refléter leur expertise et leur approche moderne.
-
 ## Objectifs du projet
 
 - Créer une identité visuelle forte et professionnelle
-- Mettre en avant les compétences techniques de l'équipe
+- Mettre en avant les compétences techniques
 - Intégrer des animations 3D pour se démarquer
 - Optimiser le référencement naturel
 
