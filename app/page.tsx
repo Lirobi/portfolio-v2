@@ -1,26 +1,33 @@
-"use client";
+import type { Metadata } from "next";
+import config from "@/data/config.json";
+import HomeClient from "./HomeClient";
 
-import {
-  HeroSection,
-  AboutSection,
-  ProjectsSection,
-  CTASection,
-  ContactSection,
-  Footer,
-} from "@/components/sections";
-import { Navigation } from "@/components/ui";
+export const metadata: Metadata = {
+  title: "Accueil",
+  description: config.content.heroDescription,
+  openGraph: {
+    title: config.site.title,
+    description: config.content.heroDescription,
+    url: "https://lilianbischung.fr",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: config.site.title,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: config.site.title,
+    description: config.content.heroDescription,
+    images: ["/og-image.png"],
+  },
+};
 
 export default function Home() {
-  return (
-    <main className="relative min-h-screen overflow-x-hidden">
-      <Navigation />
-      <HeroSection />
-      <AboutSection />
-      <ProjectsSection />
-      <CTASection />
-      <ContactSection />
-      <Footer />
-    </main>
-  );
+  return <HomeClient />;
 }
 

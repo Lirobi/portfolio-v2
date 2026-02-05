@@ -1,20 +1,30 @@
-"use client";
+import type { Metadata } from "next";
+import ParcoursClient from "./ParcoursClient";
 
-import { 
-  GraduationCap, 
-  Briefcase, 
-  Code2, 
-  Calendar,
-  ArrowRight,
-  Sparkles,
-  Building2,
-  Star,
-  Wrench
-} from "lucide-react";
-import Link from "next/link";
-import { FloatingBlob, Sticker, Button } from "@/components/ui";
-import { Footer } from "@/components/sections";
-import Navigation from "@/components/ui/Navigation";
+export const metadata: Metadata = {
+  title: "Parcours",
+  description: "Découvrez mon parcours professionnel et académique : formation, expériences et projets en développement web.",
+  openGraph: {
+    title: "Parcours | Lilian Bischung",
+    description: "Découvrez mon parcours professionnel et académique : formation, expériences et projets en développement web.",
+    url: "https://lilianbischung.fr/parcours",
+    type: "profile",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Parcours de Lilian Bischung",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Parcours | Lilian Bischung",
+    description: "Découvrez mon parcours professionnel et académique : formation, expériences et projets en développement web.",
+    images: ["/og-image.png"],
+  },
+};
 
 interface TimelineEvent {
   id: string;
@@ -336,7 +346,9 @@ export default function ParcoursPage() {
         </div>
       </section>
 
-      <Footer />
-    </main>
-  );
+  },
+};
+
+export default function Parcours() {
+  return <ParcoursClient />;
 }

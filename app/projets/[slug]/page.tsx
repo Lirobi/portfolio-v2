@@ -39,8 +39,31 @@ export async function generateMetadata({ params }: ProjectPageProps) {
   }
 
   return {
-    title: `${project.title} | Lilian Bischung`,
+    title: project.title,
     description: project.longDescription || project.description,
+    keywords: [...project.tags, "projet", "portfolio", "développement web"],
+    openGraph: {
+      title: `${project.title} | Lilian Bischung`,
+      description: project.longDescription || project.description,
+      url: `https://lilianbischung.fr/projets/${project.slug}`,
+      type: "article",
+      publishedTime: `${project.year}-01-01T00:00:00.000Z`,
+      tags: project.tags,
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: project.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} | Lilian Bischung`,
+      description: project.longDescription || project.description,
+      images: ["/og-image.png"],
+    },
   };
 }
 
