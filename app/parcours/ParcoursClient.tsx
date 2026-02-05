@@ -1,20 +1,19 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { 
   GraduationCap, 
   Briefcase, 
   Code2, 
   Calendar,
+  ArrowDown,
   ArrowRight,
   Sparkles,
-  Building2,
-  Star,
-  Wrench
+  Star
 } from "lucide-react";
 import Link from "next/link";
 import { FloatingBlob, Sticker, Button } from "@/components/ui";
 import { Footer } from "@/components/sections";
-import Navigation from "@/components/ui/Navigation";
 
 interface TimelineEvent {
   id: string;
@@ -29,16 +28,76 @@ interface TimelineEvent {
   tags?: string[];
 }
 
+// Ordre chronologique : plus ancien en premier
 const timelineData: TimelineEvent[] = [
-  // Plus récent en premier
+  // 2023 - Première année BUT
   {
-    id: "alternance-ei",
+    id: "but1",
+    type: "year",
+    title: "BUT Informatique — 1ère année",
+    subtitle: "IUT Robert Schuman, Strasbourg",
+    date: "Sept. 2023",
+    color: "teal",
+  },
+  // 2024 - Deuxième année BUT
+  {
+    id: "but2",
+    type: "year",
+    title: "BUT Informatique — 2ème année",
+    subtitle: "IUT Robert Schuman, Strasbourg",
+    date: "Sept. 2024",
+    color: "teal",
+  },
+  {
+    id: "watermarker",
+    type: "project",
+    title: "Watermarker",
+    subtitle: "Projet personnel",
+    description: "Ajouter des filigranes à vos images",
+    date: "Déc. 2024",
+    color: "purple",
+    link: "/projets/watermarker",
+    tags: ["Next.js", "Framer Motion"],
+  },
+  {
+    id: "mobile-preview",
+    type: "project",
+    title: "Mobile Preview",
+    subtitle: "Projet personnel",
+    description: "Extension VS Code de preview mobile",
+    date: "Jan. 2025",
+    color: "coral",
+    link: "/projets/mobile-preview",
+    tags: ["TypeScript", "Stripe"],
+  },
+  {
+    id: "etik-be",
+    type: "project",
+    title: "ETiK BE",
+    subtitle: "Projet client",
+    description: "Site vitrine avec animations 3D",
+    date: "Avr. 2025",
+    color: "coral",
+    link: "/projets/etik-be",
+    tags: ["Three.js", "Prisma"],
+  },
+  {
+    id: "stage-diatem",
     type: "experience",
-    title: "Alternance — Euro Information",
-    subtitle: "Secteur Finances",
-    description: "Développement bancaire",
-    date: "Sept. 2025 →",
+    title: "Stage — Diatem",
+    subtitle: "2 mois et demi",
+    description: "Développement web en agence",
+    date: "Avr. — Juin 2025",
     color: "yellow",
+  },
+  // 2025 - Troisième année BUT
+  {
+    id: "but3",
+    type: "year",
+    title: "BUT Informatique — 3ème année",
+    subtitle: "IUT Robert Schuman, Strasbourg",
+    date: "Sept. 2025",
+    color: "teal",
   },
   {
     id: "t5",
@@ -49,244 +108,267 @@ const timelineData: TimelineEvent[] = [
     date: "Sept. — Déc. 2025",
     color: "blue",
     link: "/projets/strasplanning",
+    tags: ["React", "Electron"],
   },
   {
-    id: "mobile-preview",
-    type: "project",
-    title: "Mobile Preview",
-    subtitle: "Extension VS Code",
-    description: "Extension pour prévisualiser des sites web dans un mobile simulé",
-    date: "2025",
-    color: "teal",
-    link: "/projets/mobile-preview",
-  },
-  {
-    id: "sep-sxh",
+    id: "alternance-ei",
     type: "experience",
-    title: "Stage — SXH",
-    subtitle: "Agence UX & développement sur-mesure",
-    description: "Développement web full-stack",
-    date: "Avr. — Juin 2025",
-    color: "purple",
-  },
-  {
-    id: "etik-be",
-    type: "project",
-    title: "ETiK BE",
-    subtitle: "Site vitrine",
-    description: "Site vitrine interactif avec animations 3D",
-    date: "2025",
-    color: "coral",
-    link: "/projets/etik-be",
-  },
-  {
-    id: "2024-projects",
-    type: "year",
-    title: "2024",
-    date: "2024",
+    title: "Alternance — Euro Information",
+    subtitle: "Secteur Finances",
+    description: "Développement bancaire",
+    date: "Sept. 2025 →",
     color: "yellow",
-  },
-  {
-    id: "watermarker",
-    type: "project",
-    title: "Watermarker",
-    subtitle: "Projet personnel",
-    description: "Application de filigrane d'images/vidéos",
-    date: "2024",
-    color: "purple",
-    link: "/projets/watermarker",
-  },
-  {
-    id: "iut-haguenau",
-    type: "experience",
-    title: "IUT Haguenau",
-    subtitle: "BUT Informatique",
-    description: "Formation en développement logiciel et web",
-    date: "2022 — 2025",
-    color: "teal",
-  },
-  {
-    id: "bac",
-    type: "experience",
-    title: "Baccalauréat",
-    subtitle: "Spécialité NSI & Maths",
-    description: "Lycée Alexandre Dumas",
-    date: "2022",
-    color: "blue",
   },
 ];
 
-// Coloriser le texte selon le type
-const colorMap = {
-  coral: "text-coral",
-  teal: "text-teal",
-  purple: "text-purple",
-  yellow: "text-yellow",
-  blue: "text-blue",
-};
+function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: number; isLast: boolean }) {
+  const isYear = event.type === "year";
+  const isExperience = event.type === "experience";
+  const isProject = event.type === "project";
+  
+  const colorMap = {
+    coral: { bg: "bg-coral", text: "text-coral", border: "border-coral" },
+    teal: { bg: "bg-teal", text: "text-teal", border: "border-teal" },
+    purple: { bg: "bg-purple", text: "text-purple", border: "border-purple" },
+    yellow: { bg: "bg-yellow", text: "text-yellow", border: "border-yellow" },
+    blue: { bg: "bg-blue", text: "text-blue", border: "border-blue" },
+  };
+  
+  const colors = colorMap[event.color];
 
-const bgColorMap = {
-  coral: "bg-coral/10 border-coral/30",
-  teal: "bg-teal/10 border-teal/30",
-  purple: "bg-purple/10 border-purple/30",
-  yellow: "bg-yellow/10 border-yellow/30",
-  blue: "bg-blue/10 border-blue/30",
-};
+  return (
+    <motion.div 
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ 
+        duration: 0.4, 
+        delay: index * 0.05,
+        ease: [0.34, 1.56, 0.64, 1]
+      }}
+      className="relative flex gap-4 md:gap-8 group">
+      {/* Timeline connector */}
+      <div className="flex flex-col items-center">
+        {/* Dot */}
+        <div 
+          className={`
+            relative z-10 flex items-center justify-center shrink-0
+            ${isYear ? "w-12 h-12 md:w-14 md:h-14" : "w-10 h-10 md:w-12 md:h-12"}
+            ${colors.bg} text-foreground
+            ${isYear ? "hand-drawn" : "rounded-full"}
+            transition-transform duration-300 group-hover:scale-110
+          `}
+          style={isYear ? { animationDelay: `${index * 0.1}s` } : {}}
+        >
+          {isYear && <GraduationCap className="w-5 h-5 md:w-6 md:h-6" />}
+          {isExperience && <Briefcase className="w-4 h-4 md:w-5 md:h-5" />}
+          {isProject && <Code2 className="w-4 h-4 md:w-5 md:h-5" />}
+        </div>
+        
+        {/* Line */}
+        {!isLast && (
+          <div className="w-0.5 flex-1 bg-foreground/10 min-h-8" />
+        )}
+      </div>
+
+      {/* Content */}
+      <div className={`flex-1 pb-8 ${isYear ? "pb-10" : ""}`}>
+        {isYear ? (
+          // Year card - special styling
+          <div className="pt-1">
+            <div className="inline-flex items-center gap-2 mb-2">
+              <span className={`font-mono text-sm ${colors.bg} text-foreground px-3 py-1 rounded-full`}>
+                {event.date}
+              </span>
+              <Star className={`w-4 h-4 ${colors.text} wiggle`} />
+            </div>
+            <h3 className="text-2xl md:text-3xl font-bold mb-1">
+              {event.title}
+            </h3>
+            <p className="text-foreground/60">
+              {event.subtitle}
+            </p>
+          </div>
+        ) : (
+          // Project/Experience card
+          <div 
+            className={`
+              p-5 md:p-6 bg-foreground/[0.02] border-2 border-foreground/10 
+              rounded-2xl transition-all duration-300
+              hover:border-foreground/20 hover:bg-foreground/[0.04]
+              ${isExperience ? `border-l-4 ${colors.border}` : ""}
+            `}
+          >
+            <div className="flex flex-wrap items-center gap-2 mb-3">
+              <span className="font-mono text-xs text-foreground/50 flex items-center gap-1">
+                <Calendar className="w-3 h-3" />
+                {event.date}
+              </span>
+              {isExperience && (
+                <span className={`font-mono text-xs ${colors.bg} text-foreground px-2 py-0.5 rounded-full`}>
+                  Pro
+                </span>
+              )}
+            </div>
+            
+            <h4 className="text-lg md:text-xl font-bold mb-1">
+              {event.link ? (
+                <Link 
+                  href={event.link}
+                  className={`inline-flex items-center gap-2 hover:${colors.text} transition-colors group/link`}
+                >
+                  {event.title}
+                  <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all" />
+                </Link>
+              ) : (
+                event.title
+              )}
+            </h4>
+            
+            <p className="text-foreground/50 text-sm mb-2">
+              {event.subtitle}
+            </p>
+            
+            {event.description && (
+              <p className="text-foreground/70 text-sm mb-3">
+                {event.description}
+              </p>
+            )}
+            
+            {event.tags && (
+              <div className="flex flex-wrap gap-1.5">
+                {event.tags.map((tag) => (
+                  <span 
+                    key={tag}
+                    className="px-2 py-0.5 text-xs font-mono bg-foreground/5 text-foreground/60 rounded"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
 
 export default function ParcoursClient() {
   return (
-    <>
-      <Navigation />
-      <main className="relative min-h-screen overflow-x-hidden py-32 px-6 md:px-12 lg:px-24">
-        {/* Background decorations */}
-        <FloatingBlob color="coral" className="top-20 -left-20 w-96 h-96" delay="0s" />
-        <FloatingBlob color="teal" className="top-1/3 -right-32 w-80 h-80" delay="1.5s" />
-        <FloatingBlob color="purple" className="bottom-20 left-1/4 w-64 h-64" delay="3s" />
+    <main className="relative min-h-screen overflow-x-hidden">
+      {/* Hero section - matching homepage style */}
+      <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 2xl:px-12">
+        <div className="max-w-[1400px] mx-auto w-full">
+          {/* Floating shapes */}
+          <FloatingBlob color="coral" size="lg" className="absolute top-20 right-10" />
+          <FloatingBlob color="teal" size="md" className="absolute bottom-32 left-10" delay="-2s" />
+          <FloatingBlob color="yellow" size="sm" className="absolute top-1/2 right-1/4" delay="-4s" />
+          <FloatingBlob color="purple" size="md" className="absolute bottom-20 right-20" delay="-3s" />
 
-        <div className="max-w-5xl mx-auto relative z-10">
-          {/* Header */}
-          <div className="text-center mb-20">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <Sparkles className="w-8 h-8 text-yellow wiggle" />
-              <h1 className="text-6xl md:text-7xl font-bold">Parcours</h1>
-              <Sparkles className="w-8 h-8 text-teal wiggle" />
-            </div>
-            <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
-              Voici un aperçu de mon parcours, des projets marquants et des expériences qui m'ont façonné.
-            </p>
+          <div className="relative z-10 max-w-4xl">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
+              className="inline-block mb-6"
+            >
+              <Sticker className="bg-yellow text-foreground">
+                <Sparkles className="w-4 h-4" /> Actuellement en 3ème année de BUT
+              </Sticker>
+            </motion.div>
 
-            {/* Stickers décoratifs */}
-            <div className="mt-12 flex justify-center gap-6 flex-wrap">
-              <Sticker className="bg-teal/10 text-teal">
-                <GraduationCap className="w-6 h-6" />
-                <span className="text-sm font-semibold">Étudiant</span>
-              </Sticker>
-              <Sticker className="bg-coral/10 text-coral">
-                <Code2 className="w-6 h-6" />
-                <span className="text-sm font-semibold">Dev web</span>
-              </Sticker>
-              <Sticker className="bg-purple/10 text-purple">
-                <Briefcase className="w-6 h-6" />
-                <span className="text-sm font-semibold">Alternant</span>
-              </Sticker>
-            </div>
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
+              className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8"
+            >
+              Mon&nbsp;
+              <span className="relative inline-block">
+                <span className="relative z-10">parcours</span>
+                <span className="absolute bottom-2 left-0 w-full h-4 bg-coral opacity-50 -z-0" />
+              </span>
+              <br />
+              de&nbsp;
+              <span className="wavy-underline decoration-teal">développeur</span>
+            </motion.h1>
+
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
+              className="text-xl md:text-2xl text-foreground/70 max-w-xl mb-12 leading-relaxed"
+            >
+              Du{" "}
+              <span className="font-semibold text-foreground">premier cours de code</span>{" "}
+              aux{" "}
+              <span className="font-semibold text-foreground">projets clients</span>,
+              voici les étapes qui m&apos;ont construit.
+            </motion.p>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
+              className="flex flex-wrap gap-4"
+            >
+              <button
+                onClick={() => {
+                  document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 font-semibold transition-all hand-drawn bg-foreground text-background hover:bg-coral hover:text-foreground"
+              >
+                Voir mon parcours
+                <ArrowDown className="w-5 h-5" />
+              </button>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/50"
+        >
+          <span className="text-sm font-mono">scroll</span>
+          <div className="w-px h-12 bg-foreground/20 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-foreground animate-pulse" />
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Timeline section */}
+      <section id="timeline" className="py-20 px-6 md:px-12 lg:px-24 2xl:px-12 relative">
+        {/* Background pattern */}
+        <div className="absolute inset-0 dots-pattern opacity-30" />
+        
+        <div className="max-w-[800px] mx-auto relative z-10">
+          {/* Section header */}
+          <div className="flex items-center gap-3 mb-12">
+            <span className="inline-block px-4 py-2 bg-teal text-white font-mono text-sm rounded-full">
+              Timeline
+            </span>
+            <GraduationCap className="w-8 h-8 text-teal bounce-subtle" />
           </div>
 
           {/* Timeline */}
           <div className="relative">
-            {/* Ligne centrale */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-foreground/10 -translate-x-1/2 hidden md:block" />
-
-            <div className="space-y-16">
-              {timelineData.map((event, index) => {
-                const isLeft = index % 2 === 0;
-                const isYear = event.type === "year";
-                const isProject = event.type === "project";
-                const isExperience = event.type === "experience";
-
-                if (isYear) {
-                  return (
-                    <div key={event.id} className="relative flex justify-center">
-                      <div className="bg-yellow text-foreground px-8 py-3 rounded-full font-bold text-2xl shadow-lg z-10">
-                        {event.title}
-                      </div>
-                    </div>
-                  );
-                }
-
-                return (
-                  <div
-                    key={event.id}
-                    className={`relative flex items-center ${
-                      isLeft ? "md:flex-row" : "md:flex-row-reverse"
-                    } flex-col gap-8`}
-                  >
-                    {/* Card */}
-                    <div className="w-full md:w-[calc(50%-2rem)]">
-                      <div
-                        className={`group relative p-6 rounded-2xl border-2 ${
-                          bgColorMap[event.color]
-                        } hover:scale-[1.02] transition-transform`}
-                      >
-                        {/* Icon */}
-                        <div
-                          className={`absolute -top-4 ${
-                            isLeft ? "left-6" : "md:right-6 left-6"
-                          } w-12 h-12 rounded-full ${
-                            bgColorMap[event.color]
-                          } border-2 flex items-center justify-center`}
-                        >
-                          {isProject ? (
-                            <Code2 className={`w-6 h-6 ${colorMap[event.color]}`} />
-                          ) : isExperience ? (
-                            <Briefcase className={`w-6 h-6 ${colorMap[event.color]}`} />
-                          ) : (
-                            <Star className={`w-6 h-6 ${colorMap[event.color]}`} />
-                          )}
-                        </div>
-
-                        {/* Date badge */}
-                        <div className="flex items-center gap-2 mb-3 mt-4">
-                          <Calendar className="w-4 h-4 text-foreground/50" />
-                          <span className="text-sm text-foreground/60 font-medium">{event.date}</span>
-                        </div>
-
-                        {/* Content */}
-                        <h3 className={`text-xl font-bold mb-1 ${colorMap[event.color]}`}>
-                          {event.title}
-                        </h3>
-                        {event.subtitle && (
-                          <p className="text-foreground/80 font-semibold mb-2">{event.subtitle}</p>
-                        )}
-                        {event.description && (
-                          <p className="text-foreground/60 mb-4">{event.description}</p>
-                        )}
-
-                        {/* Link */}
-                        {event.link && (
-                          <Link href={event.link}>
-                            <Button variant="outline" className="group/btn text-sm px-4 py-2">
-                              Voir le projet
-                              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                            </Button>
-                          </Link>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Center dot */}
-                    <div
-                      className={`hidden md:block absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-4 border-background ${
-                        colorMap[event.color].replace("text-", "bg-")
-                      }`}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="mt-32 text-center">
-            <div className="inline-flex items-center gap-2 mb-6">
-              <Wrench className="w-6 h-6 text-coral wiggle" />
-              <h2 className="text-3xl font-bold">Et la suite ?</h2>
-            </div>
-            <p className="text-lg text-foreground/70 mb-8">
-              Je continue d'apprendre et de construire. Découvrez mes projets ou contactez-moi !
-            </p>
-            <div className="flex gap-4 justify-center flex-wrap">
-              <Link href="/#projets">
-                <Button>Voir mes projets</Button>
-              </Link>
-              <Link href="/#contact">
-                <Button variant="secondary">Me contacter</Button>
-              </Link>
-            </div>
+            {timelineData.map((event, index) => (
+              <TimelineItem 
+                key={event.id} 
+                event={event} 
+                index={index} 
+                isLast={index === timelineData.length - 1}
+              />
+            ))}
           </div>
         </div>
-      </main>
+      </section>
+
       <Footer />
-    </>
+    </main>
   );
 }
