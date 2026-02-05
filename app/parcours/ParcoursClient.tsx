@@ -139,9 +139,9 @@ export default function ParcoursClient() {
       <Navigation />
       <main className="relative min-h-screen overflow-x-hidden py-32 px-6 md:px-12 lg:px-24">
         {/* Background decorations */}
-        <FloatingBlob className="top-20 -left-20 w-96 h-96 bg-coral/20" delay={0} />
-        <FloatingBlob className="top-1/3 -right-32 w-80 h-80 bg-teal/20" delay={1.5} />
-        <FloatingBlob className="bottom-20 left-1/4 w-64 h-64 bg-purple/20" delay={3} />
+        <FloatingBlob className="top-20 -left-20 w-96 h-96 bg-coral/20" delay="0s" />
+        <FloatingBlob className="top-1/3 -right-32 w-80 h-80 bg-teal/20" delay="1.5s" />
+        <FloatingBlob className="bottom-20 left-1/4 w-64 h-64 bg-purple/20" delay="3s" />
 
         <div className="max-w-5xl mx-auto relative z-10">
           {/* Header */}
