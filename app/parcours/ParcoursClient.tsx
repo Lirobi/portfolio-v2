@@ -139,9 +139,9 @@ export default function ParcoursClient() {
       <Navigation />
       <main className="relative min-h-screen overflow-x-hidden py-32 px-6 md:px-12 lg:px-24">
         {/* Background decorations */}
-        <FloatingBlob className="top-20 -left-20 w-96 h-96 bg-coral/20" delay="0s" />
-        <FloatingBlob className="top-1/3 -right-32 w-80 h-80 bg-teal/20" delay="1.5s" />
-        <FloatingBlob className="bottom-20 left-1/4 w-64 h-64 bg-purple/20" delay="3s" />
+        <FloatingBlob color="coral" className="top-20 -left-20 w-96 h-96" delay="0s" />
+        <FloatingBlob color="teal" className="top-1/3 -right-32 w-80 h-80" delay="1.5s" />
+        <FloatingBlob color="purple" className="bottom-20 left-1/4 w-64 h-64" delay="3s" />
 
         <div className="max-w-5xl mx-auto relative z-10">
           {/* Header */}
@@ -157,16 +157,16 @@ export default function ParcoursClient() {
 
             {/* Stickers décoratifs */}
             <div className="mt-12 flex justify-center gap-6 flex-wrap">
-              <Sticker rotate={-8}>
-                <GraduationCap className="w-6 h-6 text-teal" />
+              <Sticker className="bg-teal/10 text-teal">
+                <GraduationCap className="w-6 h-6" />
                 <span className="text-sm font-semibold">Étudiant</span>
               </Sticker>
-              <Sticker rotate={5}>
-                <Code2 className="w-6 h-6 text-coral" />
+              <Sticker className="bg-coral/10 text-coral">
+                <Code2 className="w-6 h-6" />
                 <span className="text-sm font-semibold">Dev web</span>
               </Sticker>
-              <Sticker rotate={-3}>
-                <Briefcase className="w-6 h-6 text-purple" />
+              <Sticker className="bg-purple/10 text-purple">
+                <Briefcase className="w-6 h-6" />
                 <span className="text-sm font-semibold">Alternant</span>
               </Sticker>
             </div>
@@ -245,7 +245,7 @@ export default function ParcoursClient() {
                         {/* Link */}
                         {event.link && (
                           <Link href={event.link}>
-                            <Button size="sm" variant="ghost" className="group/btn">
+                            <Button variant="outline" className="group/btn text-sm px-4 py-2">
                               Voir le projet
                               <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                             </Button>
