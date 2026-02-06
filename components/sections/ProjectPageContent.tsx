@@ -16,6 +16,11 @@ import {
   Code2,
   Calendar,
   type LucideIcon,
+  Globe2,
+  Network,
+  ArrowUpLeftFromCircle,
+  ArrowUpRightFromCircle,
+  ArrowUpRight,
 } from "lucide-react";
 import { Button, FloatingBlob, Sticker, Navigation } from "@/components/ui";
 
@@ -131,8 +136,8 @@ export default function ProjectPageContent({
                 className="px-6 py-3"
                 external
               >
-                Voir le projet
-                <ExternalLink className="w-4 h-4" />
+                Voir le site du projet
+                <ArrowUpRight className="w-4 h-4" />
               </Button>
             </div>
 
