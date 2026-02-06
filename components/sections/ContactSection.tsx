@@ -205,7 +205,7 @@ export default function ContactSection() {
                       <button
                         type="submit"
                         disabled={formState === "submitting" || formState === "success"}
-                        className="magnetic w-full py-5 bg-foreground text-background font-bold text-lg rounded-xl hover:bg-coral hover:text-foreground transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="magnetic w-full py-5 bg-foreground text-background font-bold text-lg rounded-xl hover:bg-coral hover:text-foreground transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {formState === "submitting" && (
                           <>
