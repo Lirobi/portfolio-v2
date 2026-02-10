@@ -33,15 +33,15 @@
     "projectTeaserDescription": "D'autres projets sont en préparation. Restez à l'écoute !"
   },
   "skills": [
-    { "name": "React", "color": "teal" },
-    { "name": "Next.js", "color": "foreground" },
-    { "name": "TypeScript", "color": "blue" },
-    { "name": "Node.js", "color": "teal" },
-    { "name": "Tailwind", "color": "teal" },
-    { "name": "PostgreSQL", "color": "blue" },
-    { "name": "Prisma", "color": "purple" },
-    { "name": "Git", "color": "coral" },
-    { "name": "Figma", "color": "purple" },
-    { "name": "Docker", "color": "blue" }
+    { "name": "React", "color": "teal", "icon": "/assets/icons/react/react-original.svg" },
+    { "name": "Next.js", "color": "foreground", "icon": "/assets/icons/nextjs/nextjs-original.svg" },
+    { "name": "TypeScript", "color": "blue", "icon": "/assets/icons/typescript/typescript-plain.svg" },
+    { "name": "Node.js", "color": "teal", "icon": "/assets/icons/nodejs/nodejs-plain.svg" },
+    { "name": "Tailwind", "color": "teal", "icon": "/assets/icons/tailwindcss/tailwindcss-original.svg" },
+    { "name": "PostgreSQL", "color": "blue", "icon": "/assets/icons/postgresql/postgresql-plain.svg" },
+    { "name": "Prisma", "color": "purple", "icon": "/assets/icons/prisma/prisma-original.svg" },
+    { "name": "Git", "color": "coral", "icon": "/assets/icons/git/git-plain.svg" },
+    { "name": "Figma", "color": "purple", "icon": "/assets/icons/figma/figma-plain.svg" },
+    { "name": "Docker", "color": "blue", "icon": "/assets/icons/docker/docker-plain.svg" }
   ]
 }

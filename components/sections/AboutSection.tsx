@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { Sparkles, Code2, Wrench } from "lucide-react";
 import { Stamp } from "@/components/ui";
 import config from "@/data/config.json";
+import Image from "next/image";
 
 export default function AboutSection() {
   const ref = useRef(null);
@@ -41,11 +42,22 @@ export default function AboutSection() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ duration: 0.4, delay: 0.3 + index * 0.05, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
-                  className={`skill-tag group relative px-5 py-3 bg-${skill.color}/10 border-2 border-${skill.color}/20 rounded-2xl hover:border-${skill.color} hover:bg-${skill.color}/20 transition-all cursor-default`}
+                  className={`magnetic skill-tag group relative px-5 py-3 bg-${skill.color}/10 border-2 border-${skill.color}/20 rounded-2xl hover:border-${skill.color} hover:bg-${skill.color}/20 transition-all cursor-default`}
                 >
-                  <span className={`font-semibold text-${skill.color === 'foreground' ? 'foreground' : skill.color}`}>
-                    {skill.name}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {skill.icon && (
+                      <Image 
+                        src={skill.icon} 
+                        alt={`${skill.name} icon`} 
+                        width={24} 
+                        height={24}
+                        className="w-6 h-6"
+                      />
+                    )}
+                    <span className={`font-semibold text-${skill.color === 'foreground' ? 'foreground' : skill.color}`}>
+                      {skill.name}
+                    </span>
+                  </div>
                 </motion.div>
               ))}
             </div>
