@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   authors: [{ name: config.personal.fullName, url: "https://lilianbischung.fr" }],
   creator: config.personal.fullName,
   publisher: config.personal.fullName,
-  icons: "/logo.png",
+  icons: "/favicon.ico",
   manifest: "/site.webmanifest",
   metadataBase: new URL("https://lilianbischung.fr"),
   openGraph: {
