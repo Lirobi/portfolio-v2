@@ -70,6 +70,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
+      <head>
+        <script defer src="https://umami-lirobi.vercel.app/script.js" data-website-id="95970258-c610-4745-97ba-686b5eba9a09"></script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
