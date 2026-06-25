@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Project {
+  id              Int            @id @default(autoincrement())
+  slug            String         @unique
+  title           String
+  description     String
+  longDescription String?        @db.Text
+  tags            String[]
+  color           String         @default("coral")
+  icon            String         @default("Code2")
+  url             String?
+  githubUrl       String?
+  hasPage         Boolean        @default(true)
+  markdownContent String?        @db.Text
+  year            String?
+  client          String?
+  role            String?
+  order           Int            @default(0)
+  portraitGallery Boolean        @default(false)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  images          ProjectImage[]
+}
+
+model ProjectImage {
+  id        Int      @id @default(autoincrement())
+  projectId Int
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  data      Bytes    @db.ByteA
+  mimeType  String   @default("image/png")
+  alt       String   @default("")
+  filename  String   @default("")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}

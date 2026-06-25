@@ -9,12 +9,28 @@ import {
   Footer,
 } from "@/components/sections";
 
-export default function HomeClient() {
+interface ProjectItem {
+  id: number;
+  slug: string;
+  title: string;
+  description: string;
+  tags: string[];
+  color: string;
+  icon: string;
+  url: string | null;
+  hasPage: boolean;
+}
+
+interface Props {
+  projects: ProjectItem[];
+}
+
+export default function HomeClient({ projects }: Props) {
   return (
     <main className="relative min-h-screen overflow-x-hidden">
       <HeroSection />
       <AboutSection />
-      <ProjectsSection />
+      <ProjectsSection projects={projects} />
       <CTASection />
       <ContactSection />
       <Footer />

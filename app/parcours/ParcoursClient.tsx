@@ -1,19 +1,33 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { 
-  GraduationCap, 
-  Briefcase, 
-  Code2, 
+import {
+  GraduationCap,
+  Briefcase,
+  Code2,
   Calendar,
   ArrowDown,
   ArrowRight,
   Sparkles,
-  Star
+  Star,
 } from "lucide-react";
 import Link from "next/link";
 import { FloatingBlob, Sticker, Button } from "@/components/ui";
 import { Footer } from "@/components/sections";
+
+interface DbProject {
+  slug: string;
+  title: string;
+  description: string;
+  tags: string[];
+  year: string | null;
+  order: number;
+}
+
+interface Props {
+  phase1Projects: DbProject[];
+  phase2Projects: DbProject[];
+}
 
 interface TimelineEvent {
   id: string;
@@ -22,15 +36,13 @@ interface TimelineEvent {
   subtitle?: string;
   description?: string;
   date: string;
-  dateEnd?: string;
   color: "coral" | "teal" | "purple" | "yellow" | "blue";
   link?: string;
   tags?: string[];
 }
 
-// Ordre chronologique : plus ancien en premier
-const timelineData: TimelineEvent[] = [
-  // 2023 - Première année BUT
+// Static non-project items only
+const STATIC_BEFORE: TimelineEvent[] = [
   {
     id: "but1",
     type: "year",
@@ -39,7 +51,6 @@ const timelineData: TimelineEvent[] = [
     date: "Sept. 2023",
     color: "teal",
   },
-  // 2024 - Deuxième année BUT
   {
     id: "but2",
     type: "year",
@@ -48,39 +59,9 @@ const timelineData: TimelineEvent[] = [
     date: "Sept. 2024",
     color: "teal",
   },
-  {
-    id: "watermarker",
-    type: "project",
-    title: "Watermarker",
-    subtitle: "Projet personnel",
-    description: "Ajouter des filigranes à vos images",
-    date: "Déc. 2024",
-    color: "purple",
-    link: "/projets/watermarker",
-    tags: ["Next.js", "Framer Motion"],
-  },
-  {
-    id: "mobile-preview",
-    type: "project",
-    title: "Mobile Preview",
-    subtitle: "Projet personnel",
-    description: "Extension VS Code de preview mobile",
-    date: "Jan. 2025",
-    color: "coral",
-    link: "/projets/mobile-preview",
-    tags: ["TypeScript", "Stripe"],
-  },
-  {
-    id: "etik-be",
-    type: "project",
-    title: "ETiK BE",
-    subtitle: "Projet client",
-    description: "Site vitrine avec animations 3D",
-    date: "Avr. 2025",
-    color: "coral",
-    link: "/projets/etik-be",
-    tags: ["Three.js", "Prisma"],
-  },
+];
+
+const STATIC_MIDDLE: TimelineEvent[] = [
   {
     id: "stage-diatem",
     type: "experience",
@@ -90,7 +71,9 @@ const timelineData: TimelineEvent[] = [
     date: "Avr. — Juin 2025",
     color: "yellow",
   },
-  // 2025 - Troisième année BUT
+];
+
+const STATIC_AFTER: TimelineEvent[] = [
   {
     id: "but3",
     type: "year",
@@ -98,17 +81,6 @@ const timelineData: TimelineEvent[] = [
     subtitle: "IUT Robert Schuman, Strasbourg",
     date: "Sept. 2025",
     color: "teal",
-  },
-  {
-    id: "t5",
-    type: "project",
-    title: "StrasPlanning",
-    subtitle: "Projet d'études (T5)",
-    description: "Gestion de planning en équipe",
-    date: "Sept. — Déc. 2025",
-    color: "blue",
-    link: "/projets/strasplanning",
-    tags: ["React", "Electron"],
   },
   {
     id: "alternance-ei",
@@ -121,36 +93,70 @@ const timelineData: TimelineEvent[] = [
   },
 ];
 
-function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: number; isLast: boolean }) {
+const PROJECT_COLORS: ("coral" | "teal" | "purple" | "yellow" | "blue")[] = [
+  "coral", "purple", "teal", "blue", "yellow",
+];
+
+function dbProjectToEvent(p: DbProject, index: number): TimelineEvent {
+  return {
+    id: p.slug,
+    type: "project",
+    title: p.title,
+    subtitle: "Projet",
+    description: p.description,
+    date: p.year ?? "",
+    color: PROJECT_COLORS[index % PROJECT_COLORS.length],
+    link: `/projets/${p.slug}`,
+    tags: p.tags.slice(0, 3),
+  };
+}
+
+function buildTimeline(phase1: DbProject[], phase2: DbProject[]): TimelineEvent[] {
+  const p1Events = phase1.map((p, i) => dbProjectToEvent(p, i));
+  const p2Events = phase2.map((p, i) => dbProjectToEvent(p, i));
+  return [
+    ...STATIC_BEFORE,
+    ...p1Events,
+    ...STATIC_MIDDLE,
+    ...STATIC_AFTER,
+    ...p2Events,
+  ];
+}
+
+function TimelineItem({
+  event,
+  index,
+  isLast,
+}: {
+  event: TimelineEvent;
+  index: number;
+  isLast: boolean;
+}) {
   const isYear = event.type === "year";
   const isExperience = event.type === "experience";
   const isProject = event.type === "project";
-  
+
   const colorMap = {
-    coral: { bg: "bg-coral", text: "text-coral", border: "border-coral" },
-    teal: { bg: "bg-teal", text: "text-teal", border: "border-teal" },
+    coral:  { bg: "bg-coral",  text: "text-coral",  border: "border-coral"  },
+    teal:   { bg: "bg-teal",   text: "text-teal",   border: "border-teal"   },
     purple: { bg: "bg-purple", text: "text-purple", border: "border-purple" },
     yellow: { bg: "bg-yellow", text: "text-yellow", border: "border-yellow" },
-    blue: { bg: "bg-blue", text: "text-blue", border: "border-blue" },
+    blue:   { bg: "bg-blue",   text: "text-blue",   border: "border-blue"   },
   };
-  
+
   const colors = colorMap[event.color];
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ 
-        duration: 0.4, 
-        delay: index * 0.05,
-        ease: [0.34, 1.56, 0.64, 1]
-      }}
-      className="relative flex gap-4 md:gap-8 group">
-      {/* Timeline connector */}
+      transition={{ duration: 0.4, delay: index * 0.05, ease: [0.34, 1.56, 0.64, 1] }}
+      className="relative flex gap-4 md:gap-8 group"
+    >
+      {/* Dot + connector */}
       <div className="flex flex-col items-center">
-        {/* Dot */}
-        <div 
+        <div
           className={`
             relative z-10 flex items-center justify-center shrink-0
             ${isYear ? "w-12 h-12 md:w-14 md:h-14" : "w-10 h-10 md:w-12 md:h-12"}
@@ -158,23 +164,17 @@ function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: n
             ${isYear ? "hand-drawn" : "rounded-full"}
             transition-transform duration-300 group-hover:scale-110
           `}
-          style={isYear ? { animationDelay: `${index * 0.1}s` } : {}}
         >
           {isYear && <GraduationCap className="w-5 h-5 md:w-6 md:h-6" />}
           {isExperience && <Briefcase className="w-4 h-4 md:w-5 md:h-5" />}
           {isProject && <Code2 className="w-4 h-4 md:w-5 md:h-5" />}
         </div>
-        
-        {/* Line */}
-        {!isLast && (
-          <div className="w-0.5 flex-1 bg-foreground/10 min-h-8" />
-        )}
+        {!isLast && <div className="w-0.5 flex-1 bg-foreground/10 min-h-8" />}
       </div>
 
       {/* Content */}
       <div className={`flex-1 pb-8 ${isYear ? "pb-10" : ""}`}>
         {isYear ? (
-          // Year card - special styling
           <div className="pt-1">
             <div className="inline-flex items-center gap-2 mb-2">
               <span className={`font-mono text-sm ${colors.bg} text-foreground px-3 py-1 rounded-full`}>
@@ -182,18 +182,13 @@ function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: n
               </span>
               <Star className={`w-4 h-4 ${colors.text} wiggle`} />
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-1">
-              {event.title}
-            </h3>
-            <p className="text-foreground/60">
-              {event.subtitle}
-            </p>
+            <h3 className="text-2xl md:text-3xl font-bold mb-1">{event.title}</h3>
+            <p className="text-foreground/60">{event.subtitle}</p>
           </div>
         ) : (
-          // Project/Experience card
-          <div 
+          <div
             className={`
-              p-5 md:p-6 bg-foreground/[0.02] border-2 border-foreground/10 
+              p-5 md:p-6 bg-foreground/[0.02] border-2 border-foreground/10
               rounded-2xl transition-all duration-300
               hover:border-foreground/20 hover:bg-foreground/[0.04]
               ${isExperience ? `border-l-4 ${colors.border}` : ""}
@@ -210,10 +205,10 @@ function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: n
                 </span>
               )}
             </div>
-            
+
             <h4 className="text-lg md:text-xl font-bold mb-1">
               {event.link ? (
-                <Link 
+                <Link
                   href={event.link}
                   className={`inline-flex items-center gap-2 hover:${colors.text} transition-colors group/link`}
                 >
@@ -224,24 +219,17 @@ function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: n
                 event.title
               )}
             </h4>
-            
-            <p className="text-foreground/50 text-sm mb-2">
-              {event.subtitle}
-            </p>
-            
-            {event.description && (
-              <p className="text-foreground/70 text-sm mb-3">
-                {event.description}
-              </p>
+
+            {event.subtitle && (
+              <p className="text-foreground/50 text-sm mb-2">{event.subtitle}</p>
             )}
-            
+            {event.description && (
+              <p className="text-foreground/70 text-sm mb-3">{event.description}</p>
+            )}
             {event.tags && (
               <div className="flex flex-wrap gap-1.5">
                 {event.tags.map((tag) => (
-                  <span 
-                    key={tag}
-                    className="px-2 py-0.5 text-xs font-mono bg-foreground/5 text-foreground/60 rounded"
-                  >
+                  <span key={tag} className="px-2 py-0.5 text-xs font-mono bg-foreground/5 text-foreground/60 rounded">
                     {tag}
                   </span>
                 ))}
@@ -254,20 +242,21 @@ function TimelineItem({ event, index, isLast }: { event: TimelineEvent; index: n
   );
 }
 
-export default function ParcoursClient() {
+export default function ParcoursClient({ phase1Projects, phase2Projects }: Props) {
+  const timeline = buildTimeline(phase1Projects, phase2Projects);
+
   return (
     <main className="relative min-h-screen overflow-x-hidden">
-      {/* Hero section - matching homepage style */}
+      {/* Hero */}
       <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 2xl:px-12">
         <div className="max-w-[1400px] mx-auto w-full">
-          {/* Floating shapes */}
           <FloatingBlob color="coral" size="lg" className="absolute top-20 right-10" />
           <FloatingBlob color="teal" size="md" className="absolute bottom-32 left-10" delay="-2s" />
           <FloatingBlob color="yellow" size="sm" className="absolute top-1/2 right-1/4" delay="-4s" />
           <FloatingBlob color="purple" size="md" className="absolute bottom-20 right-20" delay="-3s" />
 
           <div className="relative z-10 max-w-4xl">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
@@ -278,7 +267,7 @@ export default function ParcoursClient() {
               </Sticker>
             </motion.div>
 
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
@@ -294,7 +283,7 @@ export default function ParcoursClient() {
               <span className="wavy-underline decoration-teal">développeur</span>
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
@@ -307,16 +296,13 @@ export default function ParcoursClient() {
               voici les étapes qui m&apos;ont construit.
             </motion.p>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
-              className="flex flex-wrap gap-4"
             >
               <button
-                onClick={() => {
-                  document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={() => document.getElementById("timeline")?.scrollIntoView({ behavior: "smooth" })}
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 font-semibold transition-all hand-drawn bg-foreground text-background hover:bg-coral hover:text-foreground"
               >
                 Voir mon parcours
@@ -326,8 +312,7 @@ export default function ParcoursClient() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.5 }}
@@ -340,13 +325,10 @@ export default function ParcoursClient() {
         </motion.div>
       </section>
 
-      {/* Timeline section */}
+      {/* Timeline */}
       <section id="timeline" className="py-20 px-6 md:px-12 lg:px-24 2xl:px-12 relative">
-        {/* Background pattern */}
         <div className="absolute inset-0 dots-pattern opacity-30" />
-        
         <div className="max-w-[800px] mx-auto relative z-10">
-          {/* Section header */}
           <div className="flex items-center gap-3 mb-12">
             <span className="inline-block px-4 py-2 bg-teal text-white font-mono text-sm rounded-full">
               Timeline
@@ -354,14 +336,13 @@ export default function ParcoursClient() {
             <GraduationCap className="w-8 h-8 text-teal bounce-subtle" />
           </div>
 
-          {/* Timeline */}
           <div className="relative">
-            {timelineData.map((event, index) => (
-              <TimelineItem 
-                key={event.id} 
-                event={event} 
-                index={index} 
-                isLast={index === timelineData.length - 1}
+            {timeline.map((event, index) => (
+              <TimelineItem
+                key={event.id}
+                event={event}
+                index={index}
+                isLast={index === timeline.length - 1}
               />
             ))}
           </div>

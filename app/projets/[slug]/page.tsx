@@ -1,42 +1,23 @@
 import { notFound } from "next/navigation";
-import projectsData from "@/data/projects.json";
+import { prisma } from "@/lib/prisma";
 import ProjectPageContent from "@/components/sections/ProjectPageContent";
-import { promises as fs } from "fs";
-import path from "path";
 
 interface ProjectPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-}
-
-async function getMarkdownContent(filename: string): Promise<string | null> {
-  try {
-    const filePath = path.join(process.cwd(), "content", "projects", filename);
-    const content = await fs.readFile(filePath, "utf-8");
-    return content;
-  } catch {
-    return null;
-  }
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return projectsData
-    .filter((project) => project.hasPage)
-    .map((project) => ({
-      slug: project.slug,
-    }));
+  const projects = await prisma.project.findMany({
+    where: { hasPage: true },
+    select: { slug: true },
+  });
+  return projects.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = projectsData.find((p) => p.slug === slug);
-
-  if (!project) {
-    return {
-      title: "Projet non trouvé",
-    };
-  }
+  const project = await prisma.project.findUnique({ where: { slug } });
+  if (!project) return { title: "Projet non trouvé" };
 
   return {
     title: project.title,
@@ -46,41 +27,24 @@ export async function generateMetadata({ params }: ProjectPageProps) {
       title: `${project.title} | Lilian Bischung`,
       description: project.longDescription || project.description,
       url: `https://lilianbischung.fr/projets/${project.slug}`,
-      type: "article",
-      publishedTime: `${project.year}-01-01T00:00:00.000Z`,
-      tags: project.tags,
-      images: [
-        {
-          url: "/og-image.png",
-          width: 1200,
-          height: 630,
-          alt: project.title,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${project.title} | Lilian Bischung`,
-      description: project.longDescription || project.description,
-      images: ["/og-image.png"],
+      type: "article" as const,
     },
   };
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = projectsData.find((p) => p.slug === slug);
+  const project = await prisma.project.findUnique({
+    where: { slug },
+    include: {
+      images: {
+        select: { id: true, alt: true, filename: true, order: true },
+        orderBy: { order: "asc" },
+      },
+    },
+  });
 
-  if (!project || !project.hasPage) {
-    notFound();
-  }
+  if (!project || !project.hasPage) notFound();
 
-  let markdownContent: string | null = null;
-  if (project.markdownFile) {
-    markdownContent = await getMarkdownContent(project.markdownFile);
-  }
-
-  return (
-    <ProjectPageContent project={project} markdownContent={markdownContent} />
-  );
+  return <ProjectPageContent project={project} />;
 }
