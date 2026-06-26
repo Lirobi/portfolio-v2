@@ -11,7 +11,7 @@ export async function generateStaticParams() {
     where: { hasPage: true },
     select: { slug: true },
   });
-  return projects.map((p) => ({ slug: p.slug }));
+  return projects.map((p: (typeof projects)[number]) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: ProjectPageProps) {
