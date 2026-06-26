@@ -27,8 +27,8 @@ export default async function Parcours() {
   });
 
   // phase1 = between BUT2 and stage (order 1-5), phase2 = between BUT3 and end (order 6+)
-  const phase1 = projects.filter((p) => p.order >= 1 && p.order <= 5);
-  const phase2 = projects.filter((p) => p.order >= 6);
+  const phase1 = projects.filter((p: (typeof projects)[number]) => p.order >= 1 && p.order <= 5);
+  const phase2 = projects.filter((p: (typeof projects)[number]) => p.order >= 6);
 
   return <ParcoursClient phase1Projects={phase1} phase2Projects={phase2} />;
 }
